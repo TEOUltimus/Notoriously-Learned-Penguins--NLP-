@@ -24,12 +24,22 @@ def main():
 	query_words = str.split(query)
 	text_words = str.split(text)
 
+	lookup = {}
+
+	# Construct dictionary from words to synonyms in query
 	for word in query_words:
-		synonyms = [lemma.name for lemma in
-			sum([ss.lemmas for ss in wordnet.synsets(str.lower(word))],[])]
-		for (i, w) in enumerate(text_words):
-			if str.lower(w) in synonyms:
-        			text_words[i] = word
+		word = str.lower(word)
+		if word in lookup:
+			break
+		synonyms = [lemma.name for lemma in sum([ss.lemmas for ss in wordnet.synsets(word)],[])]
+		lookup[word] = synonyms
+
+	# traverse the document looking to replace synonyms of words in the query
+	for (i, word) in enumerate(text_words):
+		for key in lookup:
+			if str.lower(word) in lookup[key]:
+       				text_words[i] = key
+				break
 
 	text = " ".join(text_words)
 
