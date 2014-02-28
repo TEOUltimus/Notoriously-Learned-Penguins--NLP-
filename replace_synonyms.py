@@ -1,7 +1,9 @@
 from nltk.corpus import wordnet
+from nltk.tokenize.punkt import PunktWordTokenizer
 import sys
 import os
 import os.path
+import string
 
 def read_file(filename):
     f = open(filename)
@@ -10,15 +12,15 @@ def read_file(filename):
         text += line
     return text
 
-query_file = sys.argv[1]
-doc_file = sys.argv[2]
+query_file = sys.argv[1]  #file containing the query string
+doc_file = sys.argv[2]    #the document we are searching
 new_file = os.path.splitext(doc_file)[0] + "_edited.txt"
 
-query = read_file(query_file)
-text = read_file(doc_file)
+query = read_file(query_file).translate(None, string.punctuation)
+text = read_file(doc_file).translate(None, string.punctuation)
 
-query_words = str.split(query)
-text_words = str.split(text)
+query_words = PunktWordTokenizer().tokenize(query)
+text_words = PunktWordTokenizer().tokenize(text)
 
 for word in query_words:
     synonyms = [lemma.name for lemma in sum([ss.lemmas for ss in wordnet.synsets(str.lower(word))],[])]
