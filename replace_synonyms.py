@@ -1,8 +1,7 @@
+import sys, os, os.path
 from nltk.corpus import wordnet
-import sys
-import os
-import os.path
 
+# Given a filename, opens the file and returns it's text
 def read_file(filename):
     f = open(filename)
     text = ""
@@ -10,26 +9,35 @@ def read_file(filename):
         text += line
     return text
 
-query_file = sys.argv[1]
-doc_file = sys.argv[2]
-new_file = os.path.splitext(doc_file)[0] + "_edited.txt"
+# Takes two command-line arguments: a question (query_file), and a document (doc_file)
+# Replaces all synonyms of words in the query that are found in the document with the
+#	original wording of the query.
+# Outputs the result of this to [query_file]_edited.txt
+def main():
+	query_file = sys.argv[1]
+	doc_file = sys.argv[2]
+	new_file = os.path.splitext(doc_file)[0] + "_edited.txt"
 
-query = read_file(query_file)
-text = read_file(doc_file)
+	query = read_file(query_file)
+	text = read_file(doc_file)
 
-query_words = str.split(query)
-text_words = str.split(text)
+	query_words = str.split(query)
+	text_words = str.split(text)
 
-for word in query_words:
-    synonyms = [lemma.name for lemma in sum([ss.lemmas for ss in wordnet.synsets(str.lower(word))],[])]
-    for (i, w) in enumerate(text_words):
-        if str.lower(w) in synonyms:
-            text_words[i] = word
+	for word in query_words:
+		synonyms = [lemma.name for lemma in
+			sum([ss.lemmas for ss in wordnet.synsets(str.lower(word))],[])]
+		for (i, w) in enumerate(text_words):
+			if str.lower(w) in synonyms:
+        			text_words[i] = word
 
-text = " ".join(text_words)
+	text = " ".join(text_words)
 
-if os.path.exists(new_file):
-    os.remove(new_file)
-f = open(new_file, 'w')
-f.write(text)
-f.close()
+	if os.path.exists(new_file):
+		os.remove(new_file)
+	f = open(new_file, 'w')
+	f.write(text)
+	f.close()
+
+if __name__ == "__main__":
+    main()
