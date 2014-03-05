@@ -1,4 +1,5 @@
 import os, re, sys
+from nltk.tokenize.punkt import PunktSentenceTokenizer
 
 def to_question(sentence):
 	pass
@@ -12,6 +13,7 @@ def main():
 	for i in xrange(0, len(lines)):
 		lines[i] = lines[i].split('\n')[0]
 	text = ' '.join(lines)
+	text = PunktSentenceTokenizer().tokenize(text)
 	print text
 
 if __name__=='__main__':
