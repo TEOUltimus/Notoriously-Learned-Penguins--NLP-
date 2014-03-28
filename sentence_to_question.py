@@ -4,8 +4,8 @@ from stat_parser import Parser
 
 # Set up verbs, will later do pos tagging to include maybe_verbs as well
 verbs = ['be', 'am', 'are', 'is', 'was', 'were', 'being', 'could',
-    'do', 'did', 'does', 'doing', 'have', 'has', 'having',
-    'must', 'shall', 'should', 'would']
+	'do', 'did', 'does', 'doing', 'have', 'has', 'having',
+	'must', 'shall', 'should', 'would']
 maybe_verbs = ['can', 'had', 'may', 'might', 'will']
 punctuation = ['.', ',', '?', '!']
 parser = Parser()
@@ -43,11 +43,11 @@ def to_question(sent):
     return ''
 
 def main():
-    textfile = sys.argv[1]
-    lines = None
-    text = []
-    with open(textfile) as f:
-        lines = f.readlines()
+	textfile = sys.argv[1]
+	lines = None
+	text = []
+	with open(textfile) as f:
+		lines = f.readlines()
 
     # remove newlines and tokenize sentences
     for i in xrange(0, len(lines)):
@@ -69,4 +69,4 @@ def main():
         print q
 
 if __name__=='__main__':
-    main()
+	main()
