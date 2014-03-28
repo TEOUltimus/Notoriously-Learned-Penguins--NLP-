@@ -8,11 +8,11 @@ import string
 
 # Given a filename, opens the file and returns its text
 def read_file(filename):
-	f = open(filename)
-	text = ""
-	for line in f:
-		text += line
-	return text
+	with open(filename) as f:
+		text = ""
+		for line in f:
+			text += line
+		return text
 
 # Takes two command-line arguments: a question (query_file), and 
 # a document (doc_file)
@@ -38,24 +38,22 @@ def main():
 		lookup[word] = synonyms
 
 	output = ""
-	f = open(doc_file)
-
-	# traverse the document looking to replace synonyms of words in the query
-	for line in f:
-		text = line.translate(None, string.punctuation)
-		text_words = PunktWordTokenizer().tokenize(text)
-		for (i, word) in enumerate(text_words):
-			for key in lookup:
-				if str.lower(word) in lookup[key]:
-					text_words[i] = key
-					break
-		output += " ".join(text_words) + "\n"
+	with open(doc_file) as f:
+		# traverse the document looking to replace synonyms of words in the query
+		for line in f:
+			text = line.translate(None, string.punctuation)
+			text_words = PunktWordTokenizer().tokenize(text)
+			for (i, word) in enumerate(text_words):
+				for key in lookup:
+					if str.lower(word) in lookup[key]:
+						text_words[i] = key
+						break
+			output += " ".join(text_words) + "\n"
 
 	if os.path.exists(new_file):
 		os.remove(new_file)
-	f = open(new_file, 'w')
-	f.write(output)
-	f.close()
+	with open(new_file, 'w') as f:
+		f.write(output)
 
 if __name__ == "__main__":
 	main()
