@@ -10,6 +10,17 @@ maybe_verbs = ['can', 'had', 'may', 'might', 'will']
 punctuation = ['.', ',', '?', '!']
 parser = Parser()
 
+# Given a sentence, returns the same sentence if it is a valid question,
+# and '' otherwise 
+def check_question(sent):
+    tree = parser.parse(sent)
+    print tree
+    print  sent
+    if tree.node == "SBARQ" or tree.node == "SQ":
+        print "GOOD!"
+        return sent
+    return ''
+
 # Given a sentence, return a question if possible (and '' otherwise) 
 def to_question(sent):
     verb = ''
@@ -21,14 +32,14 @@ def to_question(sent):
             verb = sentence[i]
             sentence.remove(verb)
             sentence.insert(0, verb)
+            sent = ' '.join(sentence) + '?'            
 
-            sent = ' '.join(sentence) + "?"
-            tree = parser.parse(sent)
-            print tree.node
-            print  sent
-            if tree.node == "SBARQ" or tree.node == "SQ":
-                print "GOOD!"
-                return sent
+            #question = check_question(sent)
+            #if question != '':
+            #    return question
+
+            return sent
+
     return ''
 
 def main():
@@ -48,13 +59,14 @@ def main():
     for i in xrange(0, len(text)):
         out = text[i].split('. ')
         for line in out:
-            phrases = line.split(', ')
+            sep = re.compile(r', |; |\(|\) ')
+            phrases = sep.split(line)
             for phrase in phrases:
                 question = to_question(phrase)
             if question != '':
                 questions.append(question)
-    #for q in questions:
-    #    print q
+    for q in questions:
+        print q
 
 if __name__=='__main__':
     main()
