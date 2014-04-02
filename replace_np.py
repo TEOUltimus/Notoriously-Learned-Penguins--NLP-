@@ -47,7 +47,7 @@ def replace_ith_np(t,curr_np,i):
 
 def replace_np(sentence, parser):
 	sentence_parse = parser.parse(sentence)
-	wh_sentences = []
+    wh_sentences = []
 	for i in range(0,count_np(sentence_parse)):
 		wh_sentences.append(traverse(sentence_parse,0,i))
 	return wh_sentences

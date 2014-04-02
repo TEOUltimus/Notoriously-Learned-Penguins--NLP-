@@ -1,11 +1,12 @@
 import os, re, sys
+import wh_replace
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktWordTokenizer
 from stat_parser import Parser
 
 # Set up verbs, will later do pos tagging to include maybe_verbs as well
 verbs = ['be', 'am', 'are', 'is', 'was', 'were', 'being', 'could',
-	'do', 'did', 'does', 'doing', 'have', 'has', 'having',
-	'must', 'shall', 'should', 'would']
+    'do', 'did', 'does', 'doing', 'have', 'has', 'having',
+    'must', 'shall', 'should', 'would']
 maybe_verbs = ['can', 'had', 'may', 'might', 'will']
 punctuation = ['.', ',', '?', '!']
 parser = Parser()
@@ -43,11 +44,11 @@ def to_question(sent):
     return ''
 
 def main():
-	textfile = sys.argv[1]
-	lines = None
-	text = []
-	with open(textfile) as f:
-		lines = f.readlines()
+    textfile = sys.argv[1]
+    lines = None
+    text = []
+    with open(textfile) as f:
+        lines = f.readlines()
 
     # remove newlines and tokenize sentences
     for i in xrange(0, len(lines)):
@@ -63,10 +64,15 @@ def main():
             phrases = sep.split(line)
             for phrase in phrases:
                 question = to_question(phrase)
-            if question != '':
-                questions.append(question)
+                #if question != '':
+                    #questions.append(question)
+            wh_questions = wh_replace.replace_np(line, parser)
+            print wh_questions
+            if wh_questions != None:
+                for q in wh_questions:
+                    questions.append(q)
     for q in questions:
         print q
 
 if __name__=='__main__':
-	main()
+    main()
