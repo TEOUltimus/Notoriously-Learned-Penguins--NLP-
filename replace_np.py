@@ -30,7 +30,7 @@ def replace_ith_np(t,curr_np,i):
 			if curr_np == i:
 				return 'what '
 			else:
-				return 'N P ' + string.join(t.leaves(),' ') + ' '
+				return 'N P ' + ' '.join(t.leaves()) + ' '
 		else:
 	 		if len(t.leaves()) == 1:
 	 			return t.leaves()[0] + ' '
