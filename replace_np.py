@@ -30,12 +30,12 @@ def replace_ith_np(t,curr_np,i):
 			if curr_np == i:
 				return 'what '
 			else:
-				return 'N P ' + string.join(t.leaves(),' ') + ' '
+				return 'N P ' + ' '.join(t.leaves()) + ' '
 		else:
 	 		if len(t.leaves()) == 1:
 	 			return t.leaves()[0] + ' '
 		for child in t:
-			next_phrase = traverse(child,np_num,i)
+			next_phrase = replace_ith_np(child,np_num,i)
 			if next_phrase == 'what ':
 				np_num += 1
 			elif 'N P ' in next_phrase:
@@ -49,5 +49,5 @@ def replace_np(sentence, parser):
 	sentence_parse = parser.parse(sentence)
     wh_sentences = []
 	for i in range(0,count_np(sentence_parse)):
-		wh_sentences.append(traverse(sentence_parse,0,i))
+		wh_sentences.append(replace_ith_np(sentence_parse,0,i))
 	return wh_sentences
