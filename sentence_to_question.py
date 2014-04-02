@@ -1,5 +1,5 @@
 import os, re, sys
-import wh_replace
+import replace_np
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktWordTokenizer
 from stat_parser import Parser
 
@@ -14,34 +14,34 @@ parser = Parser()
 # Given a sentence, returns the same sentence if it is a valid question,
 # and '' otherwise 
 def check_question(sent):
-	 tree = parser.parse(sent)
-	 print tree
-	 print  sent
-	 if tree.node == "SBARQ" or tree.node == "SQ":
-		  print "GOOD!"
-		  return sent
-	 return ''
+     tree = parser.parse(sent)
+     print tree
+     print  sent
+     if tree.node == "SBARQ" or tree.node == "SQ":
+          print "GOOD!"
+          return sent
+     return ''
 
 # Given a sentence, return a question if possible (and '' otherwise) 
 def to_question(sent):
-	 verb = ''
-	 sentence = (sent.split('.')[0]).split(' ')
-	 for i in xrange(0, len(sentence)):
-		  if sentence[i] in verbs:
-				# for the first auxilliary ver found, move it to the
-				# front  of the sentence
-				verb = sentence[i]
-				sentence.remove(verb)
-				sentence.insert(0, verb)
-				sent = ' '.join(sentence) + '?'				
+     verb = ''
+     sentence = (sent.split('.')[0]).split(' ')
+     for i in xrange(0, len(sentence)):
+          if sentence[i] in verbs:
+                # for the first auxilliary ver found, move it to the
+                # front  of the sentence
+                verb = sentence[i]
+                sentence.remove(verb)
+                sentence.insert(0, verb)
+                sent = ' '.join(sentence) + '?'             
 
-				#question = check_question(sent)
-				#if question != '':
-				#	 return question
+                #question = check_question(sent)
+                #if question != '':
+                #    return question
 
-				return sent
+                return sent
 
-	 return ''
+     return ''
 
 def main():
     textfile = sys.argv[1]
@@ -64,13 +64,11 @@ def main():
             phrases = sep.split(line)
             for phrase in phrases:
                 question = to_question(phrase)
-                #if question != '':
-                    #questions.append(question)
-            wh_questions = wh_replace.replace_np(line, parser)
-            print wh_questions
-            if wh_questions != None:
-                for q in wh_questions:
-                    questions.append(q)
+                if question != '':
+                    questions.append(question)
+            wh_questions = replace_np.replace_np(line, parser)
+            for q in wh_questions:
+                questions.append(q)
     for q in questions:
         print q
 
