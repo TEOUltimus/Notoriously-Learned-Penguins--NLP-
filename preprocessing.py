@@ -1,4 +1,4 @@
-import nltk
+import nltk, sys
 from nltk.corpus import brown
 import string
 
@@ -10,8 +10,11 @@ def preprocess(wikipedia_text):
 	unigram_tagger = nltk.UnigramTagger(brown_tagged)
 	bigram_tagger = nltk.BigramTagger(brown_tagged,backoff=unigram_tagger)
 	paragraph_text = wikipedia_text.split('\n')
-	paragraph_tagged = [tp for p in paragraph_text for tp in bigram_tagger.tag(nltk.word_tokenize(p).translate(None,'.'))]
-	print paragraph_tagged
+	paragraph_tagged = [tp for p in paragraph_text for tp in bigram_tagger.tag(''.join(nltk.word_tokenize(p)).translate(None,'.'))]
+	#print paragraph_tagged
 
-	return
+	return paragraph_tagged
 
+if __name__ == '__main__':
+	with open(sys.argv[1]) as f:
+		print(preprocess('\n'.join(f.readlines())))
