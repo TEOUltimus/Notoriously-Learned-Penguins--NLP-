@@ -60,15 +60,16 @@ def main():
     for i in xrange(0, len(text)):
         out = text[i].split('. ')
         for line in out:
+            print line
             sep = re.compile(r', |; |\(|\) ')
             phrases = sep.split(line)
             for phrase in phrases:
                 question = to_question(phrase)
                 if question != '':
                     questions.append(question)
-            wh_questions = replace_np.replace_np(line, parser)
-            for q in wh_questions:
-                questions.append(q)
+            #wh_questions = replace_np.replace_np(line, parser)
+            #for q in wh_questions:
+            #    questions.append(q)
     for q in questions:
         print q
 
