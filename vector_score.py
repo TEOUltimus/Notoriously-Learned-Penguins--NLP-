@@ -27,6 +27,8 @@ def getList(lst, i):
 # contains mapping from each vocab word to its vector dimension
 lookup = collections.defaultdict(incr)
 
+
+
 # given to strings, return their cosine similarity
 # it is left to the caller to ensure that cases match and that
 # no unwanted symbols are present
