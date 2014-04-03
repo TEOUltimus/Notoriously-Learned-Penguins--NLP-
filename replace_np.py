@@ -20,6 +20,7 @@ def count_np(t):
 def replace_ith_np(t,curr_np,i):
 	s = ''
 	np_num = curr_np
+	k = i
 	try:
 		t.node
 	except AttributeError:
@@ -34,10 +35,13 @@ def replace_ith_np(t,curr_np,i):
 		else:
 	 		if len(t.leaves()) == 1:
 	 			return t.leaves()[0] + ' '
+	 	
 		for child in t:
-			next_phrase = replace_ith_np(child,np_num,i)
-			if next_phrase == 'what ':
+			next_phrase = replace_ith_np(child,np_num,k)
+			print next_phrase, np_num, k
+			if 'what ' in next_phrase:
 				np_num += 1
+				k = -1
 			elif 'N P ' in next_phrase:
 				np_num += 1
 				next_phrase = next_phrase[4:]
