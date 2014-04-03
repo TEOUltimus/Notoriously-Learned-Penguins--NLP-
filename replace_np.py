@@ -1,21 +1,21 @@
 from stat_parser import Parser
 
 def count_np(t):
-	count = 0
-	try:
-		t.node
-	except AttributeError:
-		print t,
-	else:
-		# Now we know that t.node is defined
-		if t.node == 'NP':
-			count += 1
-		else:
-	 		if len(t.leaves()) == 1:
-	 			return 0
-		for child in t:
-			count += count_np(child)
-		return count
+    count = 0
+    try:
+        t.node
+    except AttributeError:
+        print t,
+    else:
+        # Now we know that t.node is defined
+        if t.node == 'NP':
+            count += 1
+        else:
+            if len(t.leaves()) == 1:
+                return 0
+        for child in t:
+            count += count_np(child)
+        return count
 
 def replace_ith_np(t,curr_np,i):
 	s = ''
@@ -47,11 +47,12 @@ def replace_ith_np(t,curr_np,i):
 				next_phrase = next_phrase[4:]
 			s += next_phrase
 		return s
-	  
 
 def replace_np(sentence, parser):
-	sentence_parse = parser.parse(sentence)
-	wh_sentences = []
-	for i in range(0,count_np(sentence_parse)):
-		wh_sentences.append(replace_ith_np(sentence_parse,0,i))
-	return wh_sentences
+    if sentence == "":
+        return []
+    sentence_parse = parser.parse(sentence)
+    wh_sentences = []
+    for i in range(0,count_np(sentence_parse)):
+        wh_sentences.append(replace_ith_np(sentence_parse,0,i))
+    return wh_sentences
