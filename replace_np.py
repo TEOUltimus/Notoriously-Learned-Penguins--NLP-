@@ -18,32 +18,35 @@ def count_np(t):
         return count
 
 def replace_ith_np(t,curr_np,i):
-    s = ''
-    np_num = curr_np
-    try:
-        t.node
-    except AttributeError:
-        print t,
-    else:
-        # Now we know that t.node is defined
-        if t.node == 'NP':
-            if curr_np == i:
-                return 'what '
-            else:
-                return 'N P ' + ' '.join(t.leaves()) + ' '
-        else:
-            if len(t.leaves()) == 1:
-                return t.leaves()[0] + ' '
-        for child in t:
-            next_phrase = replace_ith_np(child,np_num,i)
-            if next_phrase == 'what ':
-                np_num += 1
-            elif 'N P ' in next_phrase:
-                np_num += 1
-                next_phrase = next_phrase[4:]
-            s += next_phrase
-        return s
-      
+	s = ''
+	np_num = curr_np
+	k = i
+	try:
+		t.node
+	except AttributeError:
+		print t,
+	else:
+		# Now we know that t.node is defined
+		if t.node == 'NP':
+			if curr_np == i:
+				return 'what '
+			else:
+				return 'N P ' + ' '.join(t.leaves()) + ' '
+		else:
+	 		if len(t.leaves()) == 1:
+	 			return t.leaves()[0] + ' '
+	 	
+		for child in t:
+			next_phrase = replace_ith_np(child,np_num,k)
+			print next_phrase, np_num, k
+			if 'what ' in next_phrase:
+				np_num += 1
+				k = -1
+			elif 'N P ' in next_phrase:
+				np_num += 1
+				next_phrase = next_phrase[4:]
+			s += next_phrase
+		return s
 
 def replace_np(sentence, parser):
     if sentence == "":
