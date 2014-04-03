@@ -1,10 +1,6 @@
-import sys, os, os.path
+import os, os.path, string, sys
 from nltk.corpus import wordnet
 from nltk.tokenize.punkt import PunktWordTokenizer
-import sys
-import os
-import os.path
-import string
 
 # Given a filename, opens the file and returns its text
 def read_file(filename):
@@ -14,6 +10,10 @@ def read_file(filename):
 			text += line
 		return text
 
+# translates name of input file into output file
+def output_name(fname):
+	return os.path.splitext(fname)[0] + "_edited.txt"
+
 # Takes two command-line arguments: a question (query_file), and 
 # a document (doc_file)
 # Replaces all synonyms of words in the query that are found in the document
@@ -22,7 +22,7 @@ def read_file(filename):
 def main():
 	query_file = sys.argv[1]
 	doc_file = sys.argv[2]
-	new_file = os.path.splitext(doc_file)[0] + "_edited.txt"
+	new_file = output_name(doc_file)
 
 	query = read_file(query_file).translate(None, string.punctuation)
 	query_words = PunktWordTokenizer().tokenize(query)
@@ -54,6 +54,7 @@ def main():
 		os.remove(new_file)
 	with open(new_file, 'w') as f:
 		f.write(output)
+	print 'done'
 
 if __name__ == "__main__":
 	main()
