@@ -1,0 +1,2 @@
+#!/bin/bash          
+python answer_question.py $1 $2

@@ -61,7 +61,7 @@ def main():
 	for i in xrange(0, len(text)):
 		out = text[i].split('. ')
 		for line in out:
-			print line
+			#print line
 			sep = re.compile(r', |; |\(|\) ')
 			phrases = sep.split(line)
 			for phrase in phrases:
