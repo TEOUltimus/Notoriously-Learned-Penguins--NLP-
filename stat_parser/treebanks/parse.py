@@ -172,8 +172,9 @@ REPLACEMENTS = (
     ('(? ?)', '(. ?)'),
 )
 def normalize_questionbank(in_path, out_path):
-    with open(in_path) as original, open(out_path, 'w') as penn_norm:
-        for line in original:
-            for old, new in REPLACEMENTS:
-                line = line.replace(old, new)
-            penn_norm.write(line)
+    with open(in_path) as original:
+        with open(out_path, 'w') as penn_norm:
+            for line in original:
+                for old, new in REPLACEMENTS:
+                    line = line.replace(old, new)
+                penn_norm.write(line)
