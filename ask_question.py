@@ -75,7 +75,7 @@ def main():
 	for q in questions:
 		print q
 		i += 1
-		if i >= numqs
+		if i >= numqs:
 			break
 
 if __name__=='__main__':
