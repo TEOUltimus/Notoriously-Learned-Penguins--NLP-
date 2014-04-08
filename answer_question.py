@@ -40,12 +40,13 @@ def answer(q,text):
 	return a2
 
 def main():
-    textfile = sys.argv[1]
-    questionfile = sys.argv[2]
-    article = open(textfile).read()
-    questions = open(questionfile).readlines()
-    for question in questions:
-    	print(answer(question[:-1],article))
+	textfile = sys.argv[1]
+	questionfile = sys.argv[2]
+	with open(textfile) as a:
+		article = a.read()
+		with open(questionfile) as questions:
+			for question in questions.readlines():
+				print(answer(question[:-1],article))
 
 if __name__=='__main__':
-    main()
+	main()
