@@ -1,4 +1,4 @@
-import ds2, re
+import ds2, re, sys
 
 # q is the question
 # sections is a list of sections from the article
